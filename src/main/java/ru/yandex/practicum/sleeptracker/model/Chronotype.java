@@ -3,7 +3,7 @@ package ru.yandex.practicum.sleeptracker.model;
 public enum Chronotype {
     LARK("Жаворонок"),
     OWL("Сова"),
-    PEGEON("Голубь");
+    HUMMINGBIRD("Голубь");
 
     private final String description;
 

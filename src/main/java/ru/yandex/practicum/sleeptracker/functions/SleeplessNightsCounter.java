@@ -16,7 +16,7 @@ public class SleeplessNightsCounter implements Function<List<SleepingSession>, S
     @Override
     public SleepAnalysisResult apply(List<SleepingSession> sessions) {
         if (sessions.isEmpty()) {
-            return new SleepAnalysisResult(DESCRIPTION, 0);
+            return new SleepAnalysisResult(DESCRIPTION, 0L);
         }
 
         long totalNights = countTotalNights(sessions);
@@ -48,7 +48,7 @@ public class SleeplessNightsCounter implements Function<List<SleepingSession>, S
 
     }
 
-    private long countSleepNight(List<SleepingSession> sessions) {
+    long countSleepNight(List<SleepingSession> sessions) {
         return sessions.stream()
                 .filter(s -> {
                             LocalDate nightDate = s.getEndDateTime().toLocalDate();

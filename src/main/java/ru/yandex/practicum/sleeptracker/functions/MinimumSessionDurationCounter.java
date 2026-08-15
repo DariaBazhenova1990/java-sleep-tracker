@@ -13,7 +13,7 @@ public class MinimumSessionDurationCounter implements Function<List<SleepingSess
     @Override
     public SleepAnalysisResult apply(List<SleepingSession> sessions) {
         if (sessions.isEmpty()) {
-            return new SleepAnalysisResult(DESCRIPTION, 0);
+            return new SleepAnalysisResult(DESCRIPTION, 0L);
         }
 
         long minDuration = sessions.stream()

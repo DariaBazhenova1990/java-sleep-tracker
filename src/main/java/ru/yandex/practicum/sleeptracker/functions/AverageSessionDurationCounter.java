@@ -13,7 +13,7 @@ public class AverageSessionDurationCounter implements Function<List<SleepingSess
     @Override
     public SleepAnalysisResult apply(List<SleepingSession> sessions) {
         if (sessions.isEmpty()) {
-            return new SleepAnalysisResult(DESCRIPTION, 0);
+            return new SleepAnalysisResult(DESCRIPTION, 0.0);
         }
 
         double avgDuration = sessions.stream()

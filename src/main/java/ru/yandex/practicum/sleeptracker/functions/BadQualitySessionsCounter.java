@@ -13,7 +13,7 @@ public class BadQualitySessionsCounter implements Function<List<SleepingSession>
     @Override
     public SleepAnalysisResult apply(List<SleepingSession> sessions) {
         if (sessions.isEmpty()) {
-            return new SleepAnalysisResult(DESCRIPTION, 0);
+            return new SleepAnalysisResult(DESCRIPTION, 0L);
         }
 
         long count = sessions.stream()

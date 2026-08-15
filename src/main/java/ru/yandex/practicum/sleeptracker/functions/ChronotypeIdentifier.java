@@ -4,6 +4,7 @@ import ru.yandex.practicum.sleeptracker.model.Chronotype;
 import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.model.SleepingSession;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -11,22 +12,30 @@ import java.util.stream.Collectors;
 
 public class ChronotypeIdentifier implements Function<List<SleepingSession>, SleepAnalysisResult> {
     private static final String DESCRIPTION = "Классификация пользователя по хронотипу";
-    private static final int LARK_START = 22;
-    private static final int LARK_END = 7;
-    private static final int OWL_START = 23;
-    private static final int OWL_END = 9;
+    private static final LocalTime LARK_START = LocalTime.of(22, 0);
+    private static final LocalTime LARK_END = LocalTime.of(7, 0);
+    private static final LocalTime OWL_START = LocalTime.of(23, 0);
+    private static final LocalTime OWL_END = LocalTime.of(9, 0);
+    private static final LocalTime NIGHT_START = LocalTime.of(0, 0);
+    private static final LocalTime NIGHT_END = LocalTime.of(6, 0);
 
     private static String getSessionChronotype(SleepingSession s) {
-        int sessionStart = s.getStartDateTime().getHour();
-        int sessionEnd = s.getEndDateTime().getHour();
-        if (sessionStart < LARK_START && sessionEnd < LARK_END) {
+        LocalTime start = s.getStartDateTime().toLocalTime();
+        LocalTime end = s.getEndDateTime().toLocalTime();
+
+        boolean isLarkStart = start.isBefore(LARK_START);
+        boolean isLarkEnd = end.isBefore(LARK_END);
+        if (isLarkStart && isLarkEnd) {
             return Chronotype.LARK.getDescription();
         }
-        if (sessionStart >= OWL_START && sessionEnd >= OWL_END) {
+
+        boolean isOwlStart = start.isAfter(OWL_START) || start.isBefore(NIGHT_END);
+        boolean isOwlEnd = end.isAfter(OWL_END);
+        if (isOwlStart && isOwlEnd) {
             return Chronotype.OWL.getDescription();
-        } else {
-            return Chronotype.HUMMINGBIRD.getDescription();
         }
+
+        return Chronotype.HUMMINGBIRD.getDescription();
     }
 
     @Override

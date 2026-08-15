@@ -1,11 +1,12 @@
 package ru.yandex.practicum.sleeptracker;
 
 import ru.yandex.practicum.sleeptracker.functions.AverageSessionDurationCounter;
+import ru.yandex.practicum.sleeptracker.functions.BadQualitySessionsCounter;
+import ru.yandex.practicum.sleeptracker.functions.ChronotypeIdentifier;
 import ru.yandex.practicum.sleeptracker.functions.MaximumSessionDurationCounter;
 import ru.yandex.practicum.sleeptracker.functions.MinimumSessionDurationCounter;
-import ru.yandex.practicum.sleeptracker.functions.TotalSessionsCounter;
 import ru.yandex.practicum.sleeptracker.functions.SleeplessNightsCounter;
-import ru.yandex.practicum.sleeptracker.functions.BadQualitySessionsCounter;
+import ru.yandex.practicum.sleeptracker.functions.TotalSessionsCounter;
 import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 import ru.yandex.practicum.sleeptracker.model.SleepingSession;
 
@@ -24,6 +25,7 @@ public class SleepTrackerApp {
         analysisFunctions.add(new AverageSessionDurationCounter());
         analysisFunctions.add(new BadQualitySessionsCounter());
         analysisFunctions.add(new SleeplessNightsCounter());
+        analysisFunctions.add(new ChronotypeIdentifier());
     }
 
     public static void main(String[] args) {

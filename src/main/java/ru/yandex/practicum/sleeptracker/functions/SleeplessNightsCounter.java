@@ -11,6 +11,7 @@ import ru.yandex.practicum.sleeptracker.model.SleepAnalysisResult;
 
 public class SleeplessNightsCounter implements Function<List<SleepingSession>, SleepAnalysisResult> {
     private static final String DESCRIPTION = "Количество бессонных ночей";
+    private static final int MIDDAY = 12;
 
     @Override
     public SleepAnalysisResult apply(List<SleepingSession> sessions) {
@@ -18,13 +19,13 @@ public class SleeplessNightsCounter implements Function<List<SleepingSession>, S
             return new SleepAnalysisResult(DESCRIPTION, 0);
         }
 
-        long totalNights = getTotalNights(sessions);
-        long sleepNights = getSleepNight(sessions);
+        long totalNights = countTotalNights(sessions);
+        long sleepNights = countSleepNight(sessions);
 
         return new SleepAnalysisResult(DESCRIPTION, totalNights - sleepNights);
     }
 
-    private long getTotalNights(List<SleepingSession> sessions) {
+    long countTotalNights(List<SleepingSession> sessions) {
         LocalDateTime firstSessionStart = sessions.stream()
                 .map(SleepingSession::getStartDateTime)
                 .min(LocalDateTime::compareTo)
@@ -37,11 +38,17 @@ public class SleeplessNightsCounter implements Function<List<SleepingSession>, S
 
         LocalDate startDate = firstSessionStart.toLocalDate();
         LocalDate endDate = lastSessionEnd.toLocalDate();
+        long nights = ChronoUnit.DAYS.between(startDate, endDate);
 
-        return ChronoUnit.DAYS.between(startDate, endDate) + 1;
+        if (firstSessionStart.getHour() >= MIDDAY) {
+            return nights;
+        } else {
+            return nights + 1;
+        }
+
     }
 
-    private long getSleepNight(List<SleepingSession> sessions) {
+    private long countSleepNight(List<SleepingSession> sessions) {
         return sessions.stream()
                 .filter(s -> {
                             LocalDate nightDate = s.getEndDateTime().toLocalDate();

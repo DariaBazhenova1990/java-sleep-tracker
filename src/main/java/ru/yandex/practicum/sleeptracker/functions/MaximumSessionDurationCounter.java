@@ -17,6 +17,7 @@ public class MaximumSessionDurationCounter implements Function<List<SleepingSess
         }
 
         long maxDuration = sessions.stream()
+                .filter(s -> s.getStartDateTime() != null && s.getEndDateTime() != null)
                 .mapToLong(s -> Duration.between(s.getStartDateTime(), s.getEndDateTime()).toMinutes())
                 .max()
                 .orElse(0L);

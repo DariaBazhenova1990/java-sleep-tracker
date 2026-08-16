@@ -17,6 +17,7 @@ public class AverageSessionDurationCounter implements Function<List<SleepingSess
         }
 
         double avgDuration = sessions.stream()
+                .filter(s -> s.getStartDateTime() != null && s.getEndDateTime() != null)
                 .mapToDouble(s -> Duration.between(s.getStartDateTime(), s.getEndDateTime()).toMinutes())
                 .average()
                 .orElse(0.0);

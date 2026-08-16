@@ -27,11 +27,13 @@ public class SleeplessNightsCounter implements Function<List<SleepingSession>, S
 
     long countTotalNights(List<SleepingSession> sessions) {
         LocalDateTime firstSessionStart = sessions.stream()
+                .filter(s -> s.getStartDateTime() != null && s.getEndDateTime() != null)
                 .map(SleepingSession::getStartDateTime)
                 .min(LocalDateTime::compareTo)
                 .orElse(LocalDateTime.now());
 
         LocalDateTime lastSessionEnd = sessions.stream()
+                .filter(s -> s.getStartDateTime() != null && s.getEndDateTime() != null)
                 .map(SleepingSession::getEndDateTime)
                 .max(LocalDateTime::compareTo)
                 .orElse(LocalDateTime.now());
@@ -50,6 +52,7 @@ public class SleeplessNightsCounter implements Function<List<SleepingSession>, S
 
     long countSleepNight(List<SleepingSession> sessions) {
         return sessions.stream()
+                .filter(s -> s.getStartDateTime() != null && s.getEndDateTime() != null)
                 .filter(s -> {
                             LocalDate nightDate = s.getEndDateTime().toLocalDate();
                             LocalDateTime nightStart = nightDate.atStartOfDay();

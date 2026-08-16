@@ -50,6 +50,7 @@ public class ChronotypeIdentifier implements Function<List<SleepingSession>, Sle
 
     private String defineUserChronotype(List<SleepingSession> sessions) {
         List<String> chronotypeByNights = sessions.stream()
+                .filter(s -> s.getStartDateTime() != null && s.getEndDateTime() != null)
                 .map(ChronotypeIdentifier::getSessionChronotype)
                 .toList();
 

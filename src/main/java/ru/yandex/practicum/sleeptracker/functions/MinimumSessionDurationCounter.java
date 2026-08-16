@@ -17,6 +17,7 @@ public class MinimumSessionDurationCounter implements Function<List<SleepingSess
         }
 
         long minDuration = sessions.stream()
+                .filter(s -> s.getStartDateTime() != null && s.getEndDateTime() != null)
                 .mapToLong(s -> Duration.between(s.getStartDateTime(), s.getEndDateTime()).toMinutes())
                 .min()
                 .orElse(0L);
